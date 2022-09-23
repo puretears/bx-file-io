@@ -27,7 +27,9 @@ public struct BXFileIO {
       }
     }
     catch {
+      #if DEBUG
       print("Cannot clear \(name) directory: \(error.localizedDescription)")
+      #endif
     }
   }
   
@@ -46,27 +48,37 @@ public struct BXFileIO {
   }
   
   public func readFile(_ fileName: String, from dirName: String) throws -> Data {
+    var uri: String = ""
+    
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
+      uri = fileUrl.relativePath
       
       return try Data(contentsOf: fileUrl)
     }
     catch {
-      print("Cannot read \(fileName) from \(dirName).")
+      #if DEBUG
+      print("Cannot read \(fileName) from \(uri).")
+      #endif
       throw error
     }
   }
   
   public func writeFile(_ fileName: String, data: Data, to dirName: String) {
+    var uri: String = ""
+    
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
+      uri = fileUrl.relativePath
       
       try data.write(to: fileUrl)
     }
     catch {
-      print("Cannot cache file: \(fileName)")
+      #if DEBUG
+      print("Cannot cache file: \(fileName) from \(uri)")
+      #endif
     }
   }
 }
