@@ -3,8 +3,10 @@ import Foundation
 public struct BXFileIO {
   var manager = FileManager.default
   
+  public static let shared = BXFileIO()
+  
   /// Create a directory named `name` if not exist.
-  func createDirectory(name: String) throws {
+  public func createDirectory(name: String) throws {
     let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
     let dirUrl = rootUrl.appendingPathComponent(name)
     
@@ -13,7 +15,7 @@ public struct BXFileIO {
     }
   }
   
-  func clearDirectory(name: String) {
+  public func clearDirectory(name: String) {
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let dirUrl = rootUrl.appendingPathComponent(name)
@@ -29,7 +31,7 @@ public struct BXFileIO {
     }
   }
   
-  func checkDirectoryExist(name: String) -> Bool {
+  public func checkDirectoryExist(name: String) -> Bool {
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let dirUrl = rootUrl.appendingPathComponent(name)
@@ -43,7 +45,7 @@ public struct BXFileIO {
     }
   }
   
-  func readFile(_ fileName: String, from dirName: String) throws -> Data {
+  public func readFile(_ fileName: String, from dirName: String) throws -> Data {
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
@@ -56,7 +58,7 @@ public struct BXFileIO {
     }
   }
   
-  func writeFile(_ fileName: String, data: Data, to dirName: String) {
+  public func writeFile(_ fileName: String, data: Data, to dirName: String) {
     do {
       let rootUrl = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
