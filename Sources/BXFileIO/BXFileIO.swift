@@ -28,7 +28,7 @@ public struct BXFileIO {
     }
     catch {
       #if DEBUG
-      print("Cannot clear \(name) directory: \(error.localizedDescription)")
+      print("[BXFileIO] Cannot clear \(name) directory: \(error.localizedDescription)")
       #endif
     }
   }
@@ -55,11 +55,14 @@ public struct BXFileIO {
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
       uri = fileUrl.relativePath
       
+      #if DEBUG
+      print("[BXFileIO] Read from \(uri).")
+      #endif
       return try Data(contentsOf: fileUrl)
     }
     catch {
       #if DEBUG
-      print("Cannot read \(fileName) from \(uri).")
+      print("[BXFileIO] Cannot read \(fileName) from \(uri).")
       #endif
       throw error
     }
@@ -73,11 +76,14 @@ public struct BXFileIO {
       let fileUrl = rootUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
       uri = fileUrl.relativePath
       
+      #if DEBUG
+      print("[BXFileIO] Write to \(uri).")
+      #endif
       try data.write(to: fileUrl)
     }
     catch {
       #if DEBUG
-      print("Cannot cache file: \(fileName) from \(uri)")
+      print("[BXFileIO] Cannot cache file: \(fileName) from \(uri)")
       #endif
     }
   }
